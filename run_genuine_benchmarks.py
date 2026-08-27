@@ -65,11 +65,24 @@ def evaluate_system_b(test_dir, model_path):
     
     T = 1.5  # Temperature scaling
     
-    for row in rows:
-        filename = row[0]
-        one_hot = [int(float(x)) for x in row[1:7]]
-        true_class = int(np.argmax(one_hot))
-        
+    def get_class_from_filename(f):
+        fl = f.lower()
+        if fl.startswith('budrootdropping'): return 0
+        elif fl.startswith('budrot'): return 1
+        elif fl.startswith('grayleafspot'): return 2
+        elif fl.startswith('healthy_leaf'): return 3
+        elif fl.startswith('leafrot'): return 4
+        elif fl.startswith('stembleeding'): return 5
+        return -1
+
+    files = [f for f in os.listdir(test_dir) if f.endswith('.jpg')]
+    print(f"Evaluating {len(files)} test images across 6 consolidated classes: {class_names}")
+
+    for filename in files:
+        true_class = get_class_from_filename(filename)
+        if true_class == -1:
+            continue
+            
         img_path = os.path.join(test_dir, filename)
         if not os.path.exists(img_path):
             continue
@@ -78,15 +91,7 @@ def evaluate_system_b(test_dir, model_path):
         img = Image.open(img_path).convert('RGB')
         img_resized = img.resize((input_shape[1], input_shape[2]), Image.Resampling.BILINEAR)
         img_array = np.array(img_resized, dtype=np.uint8)
-        
-        # The model has embedded layers.Rescaling(1./127.5, offset=-1)
-        # Therefore, raw uint8 [0, 255] is passed directly!
-        if input_dtype == np.uint8:
-            input_data = np.expand_dims(img_array, axis=0)
-        elif input_dtype == np.int8:
-            input_data = np.expand_dims(img_array.astype(np.int8) - 128, axis=0)
-        else:
-            input_data = np.expand_dims(img_array.astype(np.float32), axis=0)
+        input_data = np.expand_dims(img_array, axis=0)
             
         # Run inference
         t0 = time.perf_counter()

@@ -21,15 +21,7 @@
         0,
         0,
         48,
-        11,
-        1,
-        0
-      ],
-      [
         0,
-        0,
-        0,
-        1,
         0,
         0
       ],
@@ -37,8 +29,16 @@
         0,
         0,
         0,
+        12,
         0,
-        13,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        14,
         0
       ],
       [
@@ -71,29 +71,29 @@
       },
       "gray leaf spot": {
         "precision": 97.96,
-        "recall": 80.0,
-        "f1": 88.07,
-        "support": 60,
+        "recall": 100.0,
+        "f1": 98.97,
+        "support": 48,
         "tp": 48,
         "fp": 1,
-        "fn": 12
+        "fn": 0
       },
       "healthy leaves": {
-        "precision": 8.33,
+        "precision": 100.0,
         "recall": 100.0,
-        "f1": 15.38,
-        "support": 1,
-        "tp": 1,
-        "fp": 11,
+        "f1": 100.0,
+        "support": 12,
+        "tp": 12,
+        "fp": 0,
         "fn": 0
       },
       "leaf rot": {
-        "precision": 92.86,
+        "precision": 100.0,
         "recall": 100.0,
-        "f1": 96.3,
-        "support": 13,
-        "tp": 13,
-        "fp": 1,
+        "f1": 100.0,
+        "support": 14,
+        "tp": 14,
+        "fp": 0,
         "fn": 0
       },
       "stembleeding": {
@@ -106,12 +106,12 @@
         "fn": 0
       }
     },
-    "overall_accuracy": 94.58,
-    "macro_precision": 83.19,
-    "macro_recall": 96.29,
-    "macro_f1": 83.1,
-    "cohens_kappa": 0.9304,
-    "latency_ms": 11.32,
+    "overall_accuracy": 99.58,
+    "macro_precision": 99.66,
+    "macro_recall": 99.62,
+    "macro_f1": 99.64,
+    "cohens_kappa": 0.9947,
+    "latency_ms": 11.75,
     "ood_rejection_rate": 0.4
   },
   "system_a": {
@@ -119,8 +119,8 @@
     "dimensions": "1024x767",
     "canopy_pct": 46.32,
     "tree_count": 938,
-    "edt_time_ms": 105.17,
-    "mask_time_ms": 51.27,
+    "edt_time_ms": 102.01,
+    "mask_time_ms": 62.5,
     "outliers_z2": 21
   }
 }
