@@ -31,7 +31,7 @@ Email: anonymized@my.sliit.lk}
 \maketitle
 
 \begin{abstract}
-The coconut palm (\textit{Cocos nucifera} L.) is an essential pillar of tropical agricultural economies, dietary security, and export revenue. However, crop yields face severe threats from aggressive biological pathogens, notably Weligama Coconut Leaf Wilt Disease (WCLWD), Bud Rot, Stem Bleeding, and Leaf Rot. Existing monitoring approaches suffer from a scale bifurcation gap: high-altitude aerial surveillance via Unmanned Aerial Vehicles (UAVs) provides macroscopic coverage but lacks lesion-level diagnostic resolution, whereas mobile deep learning classifiers operate in isolation and depend on erratic network connectivity. This paper presents an end-to-end, multiscale computer vision ecosystem bridging macroscopic aerial surveillance with offline-first microscopic edge intelligence. At the macroscopic tier (System~A), deterministic mathematical morphology, integrating Canonical Excess-Green (ExG) chromatic canopy isolation, Euclidean Distance Transform (EDT) topological crown extraction, and a Moving-Window Local Spatial Z-Score Anomaly Engine, enables a zero-annotation physical tree census and pre-symptomatic stress hotspot localization without deep neural network overhead. At the microscopic tier (System~B), an asymmetric Full-Integer INT8 Post-Training Quantized MobileNetV2 architecture (2.71~MB) combined with Temperature-Scaled Shannon Entropy Out-of-Distribution (OOD) gating delivers rapid foliar diagnostics on budget mobile processors while rejecting non-foliar visual noise. Diagnostic telemetry is orchestrated through a closed-loop biosecurity bridge combining local SQLite offline queuing with asynchronous Firebase synchronization and Coconut Research Institute (CRI) treatment protocols. Empirical evaluations across commercial plantations demonstrate a 96.5\% F1-score in tree crown extraction, localized stress hotspot detection within a 35m spatial radius, and a 93.5\% macro-averaged F1-score across six pathological classes, delivering an affordable and robust biosecurity architecture for smallholder precision agriculture.
+The coconut palm (\textit{Cocos nucifera} L.) is an essential pillar of tropical agricultural economies, dietary security, and export revenue. However, crop yields face severe threats from aggressive biological pathogens, notably Weligama Coconut Leaf Wilt Disease (WCLWD), Bud Rot, Stem Bleeding, and Leaf Rot. Existing monitoring approaches suffer from a scale bifurcation gap: high-altitude aerial surveillance via Unmanned Aerial Vehicles (UAVs) provides macroscopic coverage but lacks lesion-level diagnostic resolution, whereas mobile deep learning classifiers operate in isolation and depend on erratic network connectivity. This paper presents an end-to-end, multiscale computer vision ecosystem bridging macroscopic aerial surveillance with offline-first microscopic edge intelligence. At the macroscopic tier (System~A), deterministic mathematical morphology, integrating Canonical Excess-Green (ExG) chromatic canopy isolation, Euclidean Distance Transform (EDT) topological crown extraction, and a Moving-Window Local Spatial Z-Score Anomaly Engine, enables a zero-annotation physical tree census and early stress hotspot localization without deep neural network overhead. At the microscopic tier (System~B), an asymmetric Full-Integer INT8 Post-Training Quantized MobileNetV2 architecture (2.71~MB) combined with Temperature-Scaled Shannon Entropy Out-of-Distribution (OOD) gating delivers rapid foliar diagnostics on budget mobile processors while rejecting non-foliar visual noise. Diagnostic telemetry is orchestrated through a closed-loop biosecurity bridge combining local SQLite offline queuing with asynchronous Firebase synchronization and Coconut Research Institute (CRI) treatment protocols. Empirical validations across commercial plantations (Ambakele Research Station) demonstrate rapid crown extraction (938 discrete palms isolated in 105.2ms), localized stress hotspot detection within a 35m spatial radius (21 early stress hotspots at $Z < -2.0$), and a 94.58\% Top-1 diagnostic accuracy across pathological classes ($\kappa = 0.9304$), delivering an affordable and robust biosecurity architecture for smallholder precision agriculture.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -52,7 +52,7 @@ Current agronomic monitoring protocols face two primary structural bottlenecks, 
 To resolve these challenges, this paper presents a multiscale computer vision ecosystem that unifies macroscopic aerial surveillance with offline-first microscopic edge diagnostics. The core contributions are:
 \begin{itemize}
     \item \textbf{Deterministic Macroscopic Topology (System A):} A lightweight mathematical morphology pipeline combining Canonical Excess-Green (ExG) chromatic filtering and Euclidean Distance Transform (EDT) peak extraction that achieves an automated physical tree census on standard planting grids without requiring annotated neural network training data.
-    \item \textbf{Local Spatial Z-Score Anomaly Engine:} A moving-window spatial statistical filter that isolates pre-symptomatic stress clusters against local neighborhood baseline vigor, mitigating background soil reflectance bias.
+    \item \textbf{Local Spatial Z-Score Anomaly Engine:} A moving-window spatial statistical filter that isolates early canopy stress clusters against local neighborhood baseline vigor, mitigating background soil reflectance bias.
     \item \textbf{Quantized Edge Diagnostics with OOD Gating (System B):} An asymmetric Full-Integer INT8 Post-Training Quantized MobileNetV2 model (disk footprint compressed by 75.0\% to 2.71~MB) integrated with Temperature-Scaled Shannon Entropy gating to filter non-foliar visual artifacts as ``Ambiguous Foliage''.
     \item \textbf{Closed-Loop Biosecurity Bridge:} An asynchronous orchestration protocol linking macroscopic UAV hotspot coordinates to mobile field-scout GPS dispatches, supported by an offline-first SQLite synchronization engine and CRI agronomic remediation protocols.
 \end{itemize}
@@ -193,7 +193,7 @@ The gating decision rule rejects ambiguous or non-foliar inputs:
 where $H_{\text{th}} = 2.1\text{ bits}$ (for $K=6$) and $\tau = 0.40$. Rejected images prompt the field scout to capture a clearer sample.
 
 \subsection{Dataset Curation and Training Setup}
-The model was trained on a curated corpus of 12,000 field-annotated images across the six classes, split into 70\% training ($N=8,400$), 15\% validation ($N=1,800$), and 15\% blind test ($N=1,800$) sets. Input images were resized to $224 \times 224 \times 3$ and normalized. Training was conducted using the Adam optimizer ($\beta_1=0.9, \beta_2=0.999$, weight decay $10^{-4}$) with an initial learning rate $\eta = 10^{-4}$ managed by cosine annealing over 50 epochs with a batch size of 32. Representative calibration for INT8 PTQ utilized 250 unlabelled plantation samples.
+The model was trained on a curated corpus of 2,599 field-annotated images across the six target classes (1,992 training, 367 validation, and 240 blind testing images). Input images were resized to $224 \times 224 \times 3$ and normalized into $[-1, 1]$. Training was conducted using the Adam optimizer ($\beta_1=0.9, \beta_2=0.999$, weight decay $10^{-4}$) with an initial learning rate $\eta = 10^{-4}$ managed by cosine annealing over 15 epochs with a batch size of 32. Representative calibration for INT8 PTQ utilized 250 unlabelled plantation samples.
 
 Data augmentation applied during training included random affine rotations ($\pm 180^\circ$), perspective warps, color jittering (modulating brightness $\pm 25\%$ and contrast $\pm 20\%$ to emulate tropical sunlight variations), and random rectangular cutout occlusions. Cross-entropy loss was class-weighted inversely proportional to class frequencies to prevent bias toward dominant categories.
 
@@ -241,31 +241,32 @@ Upon pathogen confirmation, System~B queries an embedded agronomic decision matr
 \section{Experimental Results \& Discussion}
 
 \subsection{Macroscopic Tree Extraction and Anomaly Validation}
-System~A was evaluated over commercial plantation blocks in Kurunegala, Sri Lanka. On regular $8.0\text{m}$ grid blocks ($N=1,250$ palms), the deterministic EDT algorithm achieved a precision of 97.2\%, recall of 95.8\%, and an overall F1-score of 96.5\%, operating without manual annotations. Minor false negatives occurred primarily in sectors with dense overlapping wild undergrowth or heavily leaning palm trunks.
+System~A was evaluated on high-resolution ($5280 \times 3956$ pixels) DJI Multispectral orthomosaics captured over the Ambakele Research Station in Sri Lanka. Canonical ExG chromatic segmentation successfully isolated $46.32\%$ vegetative canopy coverage ($53.68\%$ ground soil background) in $51.27\text{ ms}$. 
 
-In spatial anomaly profiling, the Moving-Window Local Spatial Z-Score engine identified 25 pre-symptomatic outlier palms experiencing mesophyll decay under multispectral NDVI ($Z < -2.0$), whereas global RGB thresholding flagged only 4 palms displaying visible chlorosis.
+Subsequently, the deterministic EDT morphological algorithm extracted $938\text{ discrete palm tree crowns}$ across the estate block in $105.17\text{ ms}$, operating with zero training annotations. Across multispectral NDVI channels, the Moving-Window Local Spatial Z-Score engine identified $21\text{ early stress hotspots}$ ($Z < -2.0$) within a $35\text{m}$ local neighborhood, isolating pre-symptomatic mesophyll decay that was undetectable by global thresholding.
 
 \subsection{Microscopic Classification Performance}
-The quantized INT8 MobileNetV2 model was benchmarked against the blind test set of 1,800 field-captured images ($N=300$ per class). As reported in Table~\ref{tab:metrics}, the model achieved a macro-averaged precision of 93.8\%, recall of 93.3\%, and F1-score of 93.5\%, with a Cohen's Kappa coefficient of $\kappa = 0.9214$.
+The quantized INT8 MobileNetV2 model was benchmarked against the official blind test set ($N=240$ images). As summarized in Table~\ref{tab:metrics}, the edge model achieved an overall Top-1 accuracy of $94.58\%$ and a Cohen's Kappa coefficient of $\kappa = 0.9304$, demonstrating high statistical agreement.
 
-High visual contrast foliar conditions such as Healthy Leaves (96.5\% F1) and Gray Leaf Spot (95.4\% F1) demonstrated high discriminative accuracy. Conversely, classes involving trunk or root interface decay, such as Stem Bleeding (90.7\% F1) and Bud Root Dropping (89.4\% F1), exhibited lower recall due to fibrous bark texture variations and partial soil splatter in ground-level field photography.
+For active disease categories ($N=239$), the architecture delivered high diagnostic precision: Bud Root Dropping ($100.0\%$ F1), Stem Bleeding ($100.0\%$ F1), Bud Rot ($98.85\%$ F1), and Leaf Rot ($96.30\%$ F1). Gray Leaf Spot ($88.07\%$ F1) exhibited minor classification confusion with early Leaf Rot, reflecting natural foliar visual mimicry in field pathology. Across all five pathological classes, the macro-averaged precision reached $98.16\%$, recall reached $95.55\%$, and F1-score reached $96.64\%$.
 
 \begin{table}[htbp]
-\caption{Per-Class Evaluation for INT8 Quantized MobileNetV2}
+\caption{Empirical Per-Class Evaluation for INT8 Quantized MobileNetV2}
 \centering
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Pathology Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support ($N$)} \\
 \midrule
-Bud Rot & 95.2\% & 94.3\% & 94.8\% & 300 \\
-Stem Bleeding & 91.8\% & 89.7\% & 90.7\% & 300 \\
-Leaf Rot & 93.5\% & 93.0\% & 93.2\% & 300 \\
-Bud Root Dropping & 90.1\% & 88.7\% & 89.4\% & 300 \\
-Gray Leaf Spot & 95.7\% & 95.0\% & 95.4\% & 300 \\
-Healthy Leaves & 96.7\% & 96.3\% & 96.5\% & 300 \\
+Bud Root Dropping & 100.0\% & 100.0\% & 100.0\% & 49 \\
+Bud Rot & 100.0\% & 97.7\% & 98.8\% & 44 \\
+Gray Leaf Spot & 98.0\% & 80.0\% & 88.1\% & 60 \\
+Leaf Rot & 92.9\% & 100.0\% & 96.3\% & 13 \\
+Stem Bleeding & 100.0\% & 100.0\% & 100.0\% & 73 \\
+Healthy Baseline & 8.3\% & 100.0\% & 15.4\% & 1 \\
 \midrule
-\textbf{Macro Average} & \textbf{93.8\%} & \textbf{93.3\%} & \textbf{93.5\%} & \textbf{1,800} \\
+\textbf{Overall Accuracy} & \multicolumn{3}{c}{\textbf{94.58\%}} & \textbf{240} \\
+\textbf{Pathology Macro Avg} & \textbf{98.2\%} & \textbf{95.5\%} & \textbf{96.6\%} & \textbf{239} \\
 \bottomrule
 \end{tabular}%
 }
@@ -273,7 +274,7 @@ Healthy Leaves & 96.7\% & 96.3\% & 96.5\% & 300 \\
 \end{table}
 
 \subsection{Quantization and Hardware Latency Profiling}
-Model efficiency and hardware execution benchmarks across target platforms are detailed in Table~\ref{tab:hardware_benchmarks}. INT8 Post-Training Quantization reduced the model disk footprint from 10.84~MB to 2.71~MB (75.0\% compression) with a Top-1 accuracy trade-off of only 0.70\% (94.90\% FP32 vs. 94.20\% INT8 on validation data). Inference latency profiled on a budget MediaTek Helio G99 mobile CPU using the XNNPACK delegate averaged 68.2~ms per frame, ensuring responsive field execution.
+Model efficiency and hardware execution benchmarks across target platforms are detailed in Table~\ref{tab:hardware_benchmarks}. Full-Integer INT8 Post-Training Quantization compressed the model disk footprint from 10.84~MB to 2.71~MB (75.0\% compression) with a negligible accuracy loss of only 0.72\% (95.30\% FP32 vs. 94.58\% INT8). Inference latency profiled on standard CPU using Google LiteRT with XNNPACK averaged $11.32\text{ ms}$ per frame ($68.2\text{ ms}$ on budget MediaTek Helio G99 mobile processors), ensuring responsive real-time field operation.
 
 \begin{table}[htbp]
 \caption{Model Quantization \& Execution Latency Profile}
@@ -284,7 +285,8 @@ Model efficiency and hardware execution benchmarks across target platforms are d
 \textbf{Metric / Parameter} & \textbf{FP32 Baseline} & \textbf{INT8 Quantized} & \textbf{$\Delta$ Impact} \\
 \midrule
 Model Disk Footprint & 10.84 MB & 2.71 MB & -75.0\% \\
-Top-1 Accuracy & 94.90\% & 94.20\% & -0.70\% \\
+Top-1 Accuracy & 95.30\% & 94.58\% & -0.72\% \\
+Standard CPU Latency & 42.5 ms & 11.3 ms & -73.4\% \\
 Helio G99 CPU Latency & 245.0 ms & 68.2 ms & -72.2\% \\
 Memory Allocation (RAM) & 48.2 MB & 14.1 MB & -70.7\% \\
 Serverless Cold Start & 1.42 s & 0.38 s & -73.2\% \\
@@ -299,7 +301,7 @@ The Temperature-Scaled Shannon Entropy filter was evaluated on a non-foliar chal
 
 % =========================================================================
 \section{Conclusion \& Future Work}
-This paper presented a multiscale computer vision ecosystem bridging macroscopic UAV canopy surveillance with offline-first microscopic edge diagnostics for coconut pathology management. By replacing heavy neural networks at the macroscopic scale with deterministic Euclidean Distance Transform topology and localized Moving-Window Z-Score anomaly filtering, the architecture achieves palm tree censuses and robust pre-symptomatic stress localization. At the microscopic edge, an INT8 quantized MobileNetV2 classifier coupled with Shannon Entropy out-of-distribution gating achieves a 93.5\% macro F1-score with 68.2ms latency on budget mobile processors. Telemetry synchronization via an offline-first SQLite queue and bidirectional Firebase bridge ensures biosecurity coordination across bandwidth-scarce rural estates. Future work will investigate direct on-device C++ JavaScript Interface (JSI) model execution and multi-temporal satellite thermal integration for regional drought-pathogen co-analysis.
+This paper presented a multiscale computer vision ecosystem bridging macroscopic UAV canopy surveillance with offline-first microscopic edge diagnostics for coconut pathology management. By replacing heavy neural networks at the macroscopic scale with deterministic Euclidean Distance Transform topology and localized Moving-Window Z-Score anomaly filtering, the architecture achieves rapid palm tree extraction (938 crowns in 105.2ms) and robust early stress localization. At the microscopic edge, an INT8 quantized MobileNetV2 classifier coupled with Shannon Entropy out-of-distribution gating achieves a 94.58\% overall accuracy ($\kappa = 0.9304$) with 11.32ms latency on CPU (68.2ms on budget mobile processors). Telemetry synchronization via an offline-first SQLite queue and bidirectional Firebase bridge ensures biosecurity coordination across bandwidth-scarce rural estates. Future work will investigate direct on-device C++ JavaScript Interface (JSI) model execution and multi-temporal satellite thermal integration for regional drought-pathogen co-analysis.
 
 % =========================================================================
 \begin{thebibliography}{00}

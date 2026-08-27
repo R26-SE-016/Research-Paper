@@ -1,0 +1,126 @@
+{
+  "system_b": {
+    "confusion_matrix": [
+      [
+        49,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        43,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        48,
+        11,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        13,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        73
+      ]
+    ],
+    "per_class": {
+      "bud root dropping": {
+        "precision": 100.0,
+        "recall": 100.0,
+        "f1": 100.0,
+        "support": 49,
+        "tp": 49,
+        "fp": 0,
+        "fn": 0
+      },
+      "bud rot": {
+        "precision": 100.0,
+        "recall": 97.73,
+        "f1": 98.85,
+        "support": 44,
+        "tp": 43,
+        "fp": 0,
+        "fn": 1
+      },
+      "gray leaf spot": {
+        "precision": 97.96,
+        "recall": 80.0,
+        "f1": 88.07,
+        "support": 60,
+        "tp": 48,
+        "fp": 1,
+        "fn": 12
+      },
+      "healthy leaves": {
+        "precision": 8.33,
+        "recall": 100.0,
+        "f1": 15.38,
+        "support": 1,
+        "tp": 1,
+        "fp": 11,
+        "fn": 0
+      },
+      "leaf rot": {
+        "precision": 92.86,
+        "recall": 100.0,
+        "f1": 96.3,
+        "support": 13,
+        "tp": 13,
+        "fp": 1,
+        "fn": 0
+      },
+      "stembleeding": {
+        "precision": 100.0,
+        "recall": 100.0,
+        "f1": 100.0,
+        "support": 73,
+        "tp": 73,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "overall_accuracy": 94.58,
+    "macro_precision": 83.19,
+    "macro_recall": 96.29,
+    "macro_f1": 83.1,
+    "cohens_kappa": 0.9304,
+    "latency_ms": 11.32,
+    "ood_rejection_rate": 0.4
+  },
+  "system_a": {
+    "tile": "DJI_20250813102921_0001_D.JPG",
+    "dimensions": "1024x767",
+    "canopy_pct": 46.32,
+    "tree_count": 938,
+    "edt_time_ms": 105.17,
+    "mask_time_ms": 51.27,
+    "outliers_z2": 21
+  }
+}
