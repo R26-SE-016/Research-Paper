@@ -1,0 +1,11 @@
+{
+  "tile": "DJI_20250813102921_0001_D.JPG",
+  "dimensions": "1024x767",
+  "full_sensor_resolution": "5280x3956",
+  "canopy_pct": 46.32,
+  "tree_count": 938,
+  "edt_time_ms": 123.37,
+  "mask_time_ms": 46.44,
+  "total_macroscopic_time_ms": 169.8,
+  "outliers_z2": 21
+}

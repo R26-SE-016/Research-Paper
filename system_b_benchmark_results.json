@@ -1,0 +1,128 @@
+{
+  "test_support": 233,
+  "confusion_matrix": [
+    [
+      30,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      37,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      2,
+      31,
+      2,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      20,
+      0,
+      0
+    ],
+    [
+      0,
+      6,
+      0,
+      3,
+      39,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      56
+    ]
+  ],
+  "per_class": {
+    "BudRootDropping": {
+      "precision": 100.0,
+      "recall": 96.77,
+      "f1": 98.36,
+      "support": 31,
+      "tp": 30,
+      "fp": 0,
+      "fn": 1
+    },
+    "BudRot": {
+      "precision": 82.22,
+      "recall": 100.0,
+      "f1": 90.24,
+      "support": 37,
+      "tp": 37,
+      "fp": 8,
+      "fn": 0
+    },
+    "GrayLeafSpot": {
+      "precision": 96.88,
+      "recall": 77.5,
+      "f1": 86.11,
+      "support": 40,
+      "tp": 31,
+      "fp": 1,
+      "fn": 9
+    },
+    "Healthy": {
+      "precision": 80.0,
+      "recall": 100.0,
+      "f1": 88.89,
+      "support": 20,
+      "tp": 20,
+      "fp": 5,
+      "fn": 0
+    },
+    "LeafRot": {
+      "precision": 86.67,
+      "recall": 81.25,
+      "f1": 83.87,
+      "support": 48,
+      "tp": 39,
+      "fp": 6,
+      "fn": 9
+    },
+    "StemBleeding": {
+      "precision": 100.0,
+      "recall": 98.25,
+      "f1": 99.12,
+      "support": 57,
+      "tp": 56,
+      "fp": 0,
+      "fn": 1
+    }
+  },
+  "overall_accuracy": 91.42,
+  "ci_accuracy_95": [
+    87.55,
+    94.85
+  ],
+  "macro_precision": 90.96,
+  "macro_recall": 92.29,
+  "macro_f1": 91.1,
+  "ci_macro_f1_95": [
+    86.91,
+    94.65
+  ],
+  "cohens_kappa": 0.8954,
+  "ci_kappa_95": [
+    0.8501,
+    0.9368
+  ],
+  "latency_ms": 11.76,
+  "ood_rejection_rate": 100.0
+}
