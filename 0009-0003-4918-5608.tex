@@ -17,8 +17,8 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 % Compact display math and list spacing for strict 6-page budget
-\setlength{\abovedisplayskip}{3.5pt}
-\setlength{\belowdisplayskip}{3.5pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
 
 \begin{document}
 
@@ -103,7 +103,7 @@ Phytopathological management in Sri Lanka requires modeling diseases across spat
 
 System~A functions as the macroscopic intelligence layer, ingesting 4K RGB and multispectral orthomosaics covering expansive 50--100 hectare plantation blocks (Fig.~\ref{fig:architecture}).
 
-\begin{figure}[t]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{fig1.png}
 \vspace{-3mm}
@@ -149,7 +149,10 @@ where scale factor $\sigma = 2.2$ is analytically calibrated: values of $\sigma 
 
 Individual palm apices $\mathcal{P}$ are extracted using a Spatial Local Maxima Peak filter over an agronomic footprint $\mathcal{F}$ of size $(2d_{\min} + 1) \times (2d_{\min} + 1)$:
 \begin{equation}
-\mathcal{P} = \left\{ p \in \mathcal{M} \;\middle|\; D_{\text{smooth}}(p) = \max_{q \in \mathcal{F}(p)} D_{\text{smooth}}(q) \;\wedge\; D_{\text{smooth}}(p) \ge \delta_{\text{depth}} \right\}
+\begin{split}
+\mathcal{P} = \Big\{ p \in \mathcal{M} \;\Big|\; & D_{\text{smooth}}(p) = \max_{q \in \mathcal{F}(p)} D_{\text{smooth}}(q) \\
+& \wedge\; D_{\text{smooth}}(p) \ge \delta_{\text{depth}} \Big\}
+\end{split}
 \label{eq:peaks}
 \end{equation}
 where $d_{\min} \approx 26\text{ pixels}$ corresponds directly to the physical $8.0\text{m}$ CRI planting distance under standard orthomosaic Ground Sample Distance (GSD $\sim 4.8\text{ cm/px}$), and $\delta_{\text{depth}} = 6.0\text{ pixels}$ excludes isolated weed patches. This deterministic process produces an immutable geospatial coordinate $(\text{lat}_i, \text{lng}_i)$ and crown radius $r_i$ for every physical tree without manual annotations.
@@ -164,7 +167,10 @@ For RGB imagery, Visible Atmospherically Resistant Index (VARI) estimates vegeta
 \subsection{Strategy C: Moving-Window Local Spatial Z-Score Engine}
 Pathological infection spreads in localized clusters, but plantations also exhibit broad spatial trends in soil fertility and moisture (spatial autocorrelation). System~A evaluates each palm $i \in \mathcal{P}$ against its spatial neighborhood $\mathcal{N}_i$ within radius $R \approx 35\text{m}$ to $50\text{m}$:
 \begin{equation}
-\mu_i = \frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} S_j, \quad \sigma_i = \sqrt{\frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} (S_j - \mu_i)^2}
+\begin{split}
+\mu_i &= \frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} S_j \\
+\sigma_i &= \sqrt{\frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} (S_j - \mu_i)^2}
+\end{split}
 \label{eq:local_stats}
 \end{equation}
 where $S_j$ is the mean spectral index across the canopy disk of tree $j$. The individual tree anomaly Z-Score is derived as:
@@ -190,8 +196,13 @@ where scale factor $S = (\beta - \alpha)/255$ and integer zero-point offset $Z =
 \subsection{Temperature-Scaled Shannon Entropy OOD Gating}
 To prevent uncalibrated overconfidence on out-of-distribution non-foliar visual noise (mud, skin, sun glare) \cite{b19}, System~B implements a Temperature-Scaled Softmax gating layer. Logit outputs $z_k$ ($k=1,\dots,K$) are calibrated via temperature parameter $T = 1.5$:
 \begin{equation}
-p_k = \frac{\exp(z_k / T)}{\sum_{j=1}^K \exp(z_j / T)}, \qquad H(P) = -\sum_{k=1}^K p_k \log_2(p_k)
+p_k = \frac{\exp(z_k / T)}{\sum_{j=1}^K \exp(z_j / T)}
 \label{eq:temp_softmax}
+\end{equation}
+The Shannon Entropy $H(P)$ is computed as:
+\begin{equation}
+H(P) = -\sum_{k=1}^K p_k \log_2(p_k)
+\label{eq:entropy}
 \end{equation}
 For $K=6$ classes, maximum entropy occurs under uniform uncertainty ($H_{\max} = \log_2(6) \approx 2.585\text{ bits}$). An agronomically reliable diagnosis requires top-class confidence $\max(P) \ge 0.60$, corresponding to $H \approx 2.10\text{ bits}$ ($81.2\%$ of $H_{\max}$). The gating decision rule rejects ambiguous or non-foliar inputs:
 \begin{equation}
